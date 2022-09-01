@@ -19,13 +19,8 @@ class PostController extends Controller
         );
     }
     
-    public function toggleReaction(Post $post): \Illuminate\Http\JsonResponse
+    public function toggleReaction(Post $post, ToggleReactionRequest $request): \Illuminate\Http\JsonResponse
     {
-        Validator::make(
-            [ 'post' => $post ],
-            [ 'post' =>  new DisallowSelfReact() ],
-        )->validate();
-
         $user = auth()->user();
         $like = Like::where('post_id', $post->id)
                         ->where('user_id', $user->id)
